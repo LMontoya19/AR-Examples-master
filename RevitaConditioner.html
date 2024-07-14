@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <head>
 	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-	<title>Revita Tablets</title>
+	<title>Revita Conditioner</title>
 	<!-- include three.js library -->
 	<script src='js/three.js'></script>
 	<script src='js/OBJLoader.js'></script>
@@ -124,12 +124,12 @@
 
 			new THREE.MTLLoader()
 				.setPath('models/')
-                .load('revitatablets2.mtl', function (materials) {
+                .load('revitaconditioner.mtl', function (materials) {
 					materials.preload();
 					new THREE.OBJLoader()
 						.setMaterials(materials)
 						.setPath('models/')
-                        .load('revitatablets2.obj', function (group) {
+                        .load('revitaconditioner.obj', function (group) {
 							mesh0 = group.children[0];
 							mesh0.material.side = THREE.DoubleSide;
 							mesh0.position.y = 2;
