@@ -155,12 +155,12 @@
 				});
             new THREE.MTLLoader()
                 .setPath('models/')
-                .load('revitatablets2.mtl', function (materials) {
+                .load('revitaconditioner.mtl', function (materials) {
                     materials.preload();
                     new THREE.OBJLoader()
                         .setMaterials(materials)
                         .setPath('models/')
-                        .load('revitatablets2.obj', function (group) {
+                        .load('revitaconditioner.obj', function (group) {
                             mesh3 = group.children[0];
                             mesh3.material.side = THREE.DoubleSide;
                             mesh3.position.y = 2;
