@@ -124,12 +124,12 @@
 
 			new THREE.MTLLoader()
 				.setPath('models/')
-                .load('3productos.mtl', function (materials) {
+                .load('revitashampoo.mtl', function (materials) {
 					materials.preload();
 					new THREE.OBJLoader()
 						.setMaterials(materials)
 						.setPath('models/')
-                        .load('3productos.obj', function (group) {
+                        .load('revitashampoo.obj', function (group) {
 							mesh0 = group.children[0];
 							mesh0.material.side = THREE.DoubleSide;
 							mesh0.position.y = 2;
@@ -148,8 +148,24 @@
                             mesh2 = group.children[0];
                             mesh2.material.side = THREE.DoubleSide;
 							mesh2.position.y = 2;
-                            mesh2.position.x = 9;
+                            mesh2.position.x = 1;
                             mesh2.scale.set(1.25, 1.25, 1.25);
+                            markerRoot1.add(mesh2);
+                        }, onProgress, onError);
+				});
+            new THREE.MTLLoader()
+                .setPath('models/')
+                .load('revitatablets2.mtl', function (materials) {
+                    materials.preload();
+                    new THREE.OBJLoader()
+                        .setMaterials(materials)
+                        .setPath('models/')
+                        .load('revitatablets2.obj', function (group) {
+                            mesh3 = group.children[0];
+                            mesh3.material.side = THREE.DoubleSide;
+                            mesh3.position.y = 2;
+                            mesh3.position.x = -1;
+                            mesh3.scale.set(1.25, 1.25, 1.25);
                             markerRoot1.add(mesh2);
                         }, onProgress, onError);
                 });
