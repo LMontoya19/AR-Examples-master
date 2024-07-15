@@ -50,7 +50,7 @@
 				alpha: true
 			});
 			renderer.setClearColor(new THREE.Color('lightgrey'), 0)
-            renderer.setSize(2048, 2048);
+            renderer.setSize(4096, 4096);
 			renderer.domElement.style.position = 'absolute'
 			renderer.domElement.style.top = '0px'
 			renderer.domElement.style.left = '0px'
@@ -132,8 +132,8 @@
                         .load('revitashampoo.obj', function (group) {
 							mesh0 = group.children[0];
 							mesh0.material.side = THREE.DoubleSide;
-							mesh0.position.y = 2;
-                            mesh0.scale.set(0.5,0.5,0.5);
+                            mesh0.position.y = 0.5;
+                            mesh0.scale.set(0.3,0.3,0.3);
 							markerRoot1.add(mesh0);
 						}, onProgress, onError);
 				});
@@ -147,9 +147,9 @@
                         .load('revitatablets2.obj', function (group) {
                             mesh2 = group.children[0];
                             mesh2.material.side = THREE.DoubleSide;
-							mesh2.position.y = 2;
-                            mesh2.position.x = 1.75;
-                            mesh2.scale.set(0.5, 0.5,0.5);
+							mesh2.position.y = .5;
+                            mesh2.position.x = 0.75;
+                            mesh2.scale.set(0.3, 0.3,0.3);
                             markerRoot1.add(mesh2);
                         }, onProgress, onError);
 				});
@@ -163,9 +163,9 @@
                         .load('revitaconditioner.obj', function (group) {
                             mesh3 = group.children[0];
                             mesh3.material.side = THREE.DoubleSide;
-                            mesh3.position.y = 2;
-                            mesh3.position.x = -1.25;
-                            mesh3.scale.set(0.5, 0.5,0.5);
+                            mesh3.position.y = .05;
+                            mesh3.position.x = -0.25;
+                            mesh3.scale.set(0.3, 0.3,0.3);
                             markerRoot1.add(mesh3);
                         }, onProgress, onError);
                 });
