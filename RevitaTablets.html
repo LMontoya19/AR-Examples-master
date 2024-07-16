@@ -195,27 +195,7 @@
 			render();
 		}
 
-        intro.addEventListener("ended", function () {
-            intro.currentTime = 0;
-            playing = false;
-        });
-
-        AFRAME.registerComponent('markerhandler', {
-            init: function () {
-                // Set up the tick throttling. Will check if marker is active every 500ms
-                this.tick = AFRAME.utils.throttleTick(this.tick, 500, this);
-            },
-            tick: function (t, dt) {
-
-                if (document.querySelector("markerRoot1").object3D.visible == true && playing == false) {
-                    // MARKER IS PRESENT
-                    intro.play();
-                    playing = true;
-                } else {
-                    // MARKER IS HIDDEN, do nothing (up to you)
-                }
-
-            }
+        
 
 	</script>
 
