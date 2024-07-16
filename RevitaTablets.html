@@ -23,7 +23,6 @@
 	  Based on the AR.js library and examples created by Jerome Etienne: https://github.com/jeromeetienne/AR.js/
 	-->
 
-
 	<script>
 
 		var scene, camera, renderer, clock, deltaTime, totalTime;
@@ -31,16 +30,13 @@
 		var arToolkitSource, arToolkitContext;
 
 		var markerRoot1;
-		
+
 		var mesh1;
 
 		initialize();
 		animate();
 
-
-
 		function initialize() {
-
 			scene = new THREE.Scene();
 
 			let ambientLight = new THREE.AmbientLight(0xcccccc, 1.0);
@@ -173,7 +169,6 @@
 							markerRoot1.add(mesh3);
 						}, onProgress, onError);
 				});
-
 		}
 
 
@@ -196,8 +191,6 @@
 			update();
 			render();
 		}
-
-
 
 	</script>
 
