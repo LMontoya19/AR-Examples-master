@@ -30,13 +30,17 @@
 	</audio>
 
 	<div style='position: fixed; top: 10px; width:100%; text-align: center; z-index: 1;'>
-		<button>
-			HIDE OBJECTS
+		<button onclick="playAudio()">
+			REPRODUCIR
 		</button>
 	</div>
 	<script>
 
+        var x = document.getElementById("myAudio");
 
+        function playAudio() {
+            x.play();
+        } 
 		var scene, camera, renderer, clock, deltaTime, totalTime;
 
 		var arToolkitSource, arToolkitContext;
