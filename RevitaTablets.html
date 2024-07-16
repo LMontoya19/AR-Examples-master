@@ -22,10 +22,7 @@
 	  Example created by Lee Stemkoski: https://github.com/stemkoski
 	  Based on the AR.js library and examples created by Jerome Etienne: https://github.com/jeromeetienne/AR.js/
 	-->
-	<audio src="audios/revita.ogg" autoplay>
-		Your browser does not support the
-		<code>audio</code> element.
-	</audio>
+	
 	<script>
 
 		var scene, camera, renderer, clock, deltaTime, totalTime;
@@ -33,11 +30,33 @@
 		var arToolkitSource, arToolkitContext;
 
 		var markerRoot1;
-
+        var intro = new Audio("audios/revita.ogg");
 		var mesh1;
 
 		initialize();
 		animate();
+
+        intro.addEventListener("ended", function () {
+            intro.currentTime = 0;
+            playing = false;
+		});
+
+        AFRAME.registerComponent('markerhandler', {
+            init: function () {
+                // Set up the tick throttling. Will check if marker is active every 500ms
+                this.tick = AFRAME.utils.throttleTick(this.tick, 500, this);
+            },
+            tick: function (t, dt) {
+
+                if (document.querySelector("markerRoot1").object3D.visible == true && playing == false) {
+                    // MARKER IS PRESENT
+                    intro.play();
+                    playing = true;
+                } else {
+                    // MARKER IS HIDDEN, do nothing (up to you)
+                }
+
+            }
 
 		function initialize() {
 			scene = new THREE.Scene();
