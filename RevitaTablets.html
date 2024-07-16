@@ -23,7 +23,7 @@
 	  Based on the AR.js library and examples created by Jerome Etienne: https://github.com/jeromeetienne/AR.js/
 	-->
 
-	<audio id="myAudio">
+	<audio id="myAudio" preload="auto">
 		<source src="audios/revita.ogg" type="audio/ogg">
 		<source src="audios/revita.mp3" type="audio/mpeg">
 		Your browser does not support the audio element.
@@ -48,7 +48,8 @@
 
 
 		function initialize() {
-            
+			var x = document.getElementById("myAudio");
+			x.play();
 			scene = new THREE.Scene();
 
 			let ambientLight = new THREE.AmbientLight(0xcccccc, 1.0);
@@ -177,7 +178,7 @@
 							mesh3 = group.children[0];
 							mesh3.material.side = THREE.DoubleSide;
 							mesh3.position.y = 2.0;
-							mesh3.position.x = -1.4;
+							mesh3.position.x = -1.6;
 							mesh3.scale.set(1.5, 1.5, 1.5);
 							markerRoot1.add(mesh3);
 						}, onProgress, onError);
