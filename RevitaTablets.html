@@ -23,9 +23,9 @@
 	  Based on the AR.js library and examples created by Jerome Etienne: https://github.com/jeromeetienne/AR.js/
 	-->
 
-	<audio id="myAudio">
-		<source src="revita.ogg" type="audio/ogg">
-		<source src="revita.mp3" type="audio/mpeg">
+	<audio id="myAudio" controls autoplay>
+		<source src="audios/revita.ogg" type="audio/ogg">
+		<source src="audios/revita.mp3" type="audio/mpeg">
 		Your browser does not support the audio element.
 	</audio>
 
@@ -130,6 +130,7 @@
 
 			function onProgress(xhr) { console.log((xhr.loaded / xhr.total * 100) + '% loaded'); }
 			function onError(xhr) { console.log('An error happened'); }
+			let audio = document.getElementById('myAudio');
 
 			new THREE.MTLLoader()
 				.setPath('models/')
