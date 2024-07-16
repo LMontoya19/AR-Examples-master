@@ -23,15 +23,15 @@
 	  Based on the AR.js library and examples created by Jerome Etienne: https://github.com/jeromeetienne/AR.js/
 	-->
 
-	<audio id="myAudio" controls autoplay>
+	<audio id="myAudio">
 		<source src="audios/revita.ogg" type="audio/ogg">
 		<source src="audios/revita.mp3" type="audio/mpeg">
 		Your browser does not support the audio element.
 	</audio>
 
-
+	<button onclick="playAudio()" type="button">Reproducir</button>
 	<script>
-        var x = document.getElementById("myAudio"); 
+		var x = document.getElementById("myAudio");
 
 		var scene, camera, renderer, clock, deltaTime, totalTime;
 
@@ -43,9 +43,13 @@
 
 		initialize();
 		animate();
-        x.play(); 
+		
+        function playAudio() {
+            x.play();
+        } 
+
 		function initialize() {
-            
+
 			scene = new THREE.Scene();
 
 			let ambientLight = new THREE.AmbientLight(0xcccccc, 1.0);
