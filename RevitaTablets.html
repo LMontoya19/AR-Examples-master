@@ -2,6 +2,10 @@
 <head>
 	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 	<title>Linea Estelar</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 	<!-- include three.js library -->
 	<script src='js/three.js'></script>
 	<script src='js/OBJLoader.js'></script>
@@ -16,7 +20,7 @@
 	<script src="threex/threex-armarkercontrols.js"></script>
 </head>
 
-<body style='margin : 0px; overflow: hidden; font-family: Monospace;'>
+<body style='margin: 0px; overflow: hidden; font-family: Monospace;>
 
 	<!--
 	  Example created by Lee Stemkoski: https://github.com/stemkoski
@@ -34,6 +38,16 @@
 			REPRODUCIR
 		</button>
 	</div>
+
+	<div id="demo" class="collapse in">
+		<div class="container">
+			<h2>Ingresa tu nombre</h2>
+			<input type="text" id="fname" name="fname"><br><br>
+			<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo" onclick="myFunction()">Ingresar</button>
+
+		</div>
+	</div>
+
 	<script>
 
         var x = document.getElementById("myAudio");
@@ -49,11 +63,12 @@
 
 		var mesh1;
 
-		initialize();
-		animate();
 
 
-
+        function myFunction() {
+            initialize();
+            animate();
+        }
 		function initialize() {
 			var x = document.getElementById("myAudio");
 			x.play();
