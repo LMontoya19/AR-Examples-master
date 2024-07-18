@@ -68,14 +68,14 @@
 
 
 		function myFunction() {
-			document.getElementById("demo").innerHTML = fname.value;
-			
+		
+			var name = fname.value;
 
 
 			initialize();
 			animate();
 			
-			var text = "Bienvenido Has tomado una gran decision , en iniciar una relacion con tu cabello.";
+			var text = "Bienvenido"+ name+ "Has tomado una gran decision , en iniciar una relacion con tu cabello.";
             const utterance = new SpeechSynthesisUtterance(text);
 
             const voices = speechSynthesis.getVoices();
@@ -85,7 +85,7 @@
 			speechSynthesis.speak(utterance);
         
 
-            window.setTimeout(playAudio, 10000);
+            window.setTimeout(playAudio, 9000);
 		}
 		function initialize() {
 			var x = document.getElementById("myAudio");
