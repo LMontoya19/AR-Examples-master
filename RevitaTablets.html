@@ -71,7 +71,7 @@
 			document.getElementById("demo").innerHTML = fname.value;
 			initialize();
 			animate();
-			const utterance = new SpeechSynthesisUtterance("Bienvenido " + fname.value + " Has tomado una gran decision , en iniciar una relacion con tu cabello.");
+			const utterance = new SpeechSynthesisUtterance("Bienvenido Has tomado una gran decision , en iniciar una relacion con tu cabello.");
 
             const voices = speechSynthesis.getVoices();
             utterance.voice = voices[0]; // Choose a specific voice
