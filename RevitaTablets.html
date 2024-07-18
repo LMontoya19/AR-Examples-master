@@ -20,7 +20,7 @@
 	<script src="threex/threex-armarkercontrols.js"></script>
 </head>
 
-<body style='margin: 0px; overflow: hidden; font-family: Monospace;>
+<body style='margin: 0px; overflow: hidden; font-family: Monospace;'>
 
 	<!--
 	  Example created by Lee Stemkoski: https://github.com/stemkoski
@@ -47,14 +47,15 @@
 
 		</div>
 	</div>
-
+	<div id="demo2">
+	</div>
 	<script>
 
-        var x = document.getElementById("myAudio");
+		var x = document.getElementById("myAudio");
 
-        function playAudio() {
-            x.play();
-        } 
+		function playAudio() {
+			x.play();
+		}
 		var scene, camera, renderer, clock, deltaTime, totalTime;
 
 		var arToolkitSource, arToolkitContext;
@@ -65,11 +66,12 @@
 
 
 
-        function myFunction() {
-            initialize();
+		function myFunction() {
+            document.getElementById("demo2").innerHTML = fname.value;
+			initialize();
 			animate();
-            x.play();
-        }
+			x.play();
+		}
 		function initialize() {
 			var x = document.getElementById("myAudio");
 			x.play();
