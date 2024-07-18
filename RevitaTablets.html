@@ -28,17 +28,17 @@
 	  Based on the AR.js library and examples created by Jerome Etienne: https://github.com/jeromeetienne/AR.js/
 	-->
 
-	<audio id="myAudio" preload="auto">
+	<audio id="myAudio" preload="none">
 		<source src="audios/revita.ogg" type="audio/ogg">
 		<source src="audios/revita.mp3" type="audio/mpeg">
 		Your browser does not support the audio element.
 	</audio>
 
-	<!--<div style='position: fixed; top: 10px; width:100%; text-align: center; z-index: 1;'>
+	<div style='position: fixed; top: 10px; width:100%; text-align: center; z-index: 1;'>
 		<button onclick="playAudio()">
 			REPRODUCIR
 		</button>
-	</div>-->
+	</div>
 
 	<div id="demo" class="collapse in">
 		<div class="container">
@@ -53,7 +53,7 @@
 	<script>
 
 		var x = document.getElementById("myAudio");
-
+	
 		function playAudio() {
 			x.play();
 		}
@@ -79,9 +79,8 @@
             const utterance = new SpeechSynthesisUtterance(text);
 
             const voices = speechSynthesis.getVoices();
-            utterance.voice = voices[0]; // Choose a specific voice
-            utterance.lang = "es-ES";
-
+            utterance.voice = voices.find((voice) => voice.lang === 'es-ES', 'Paulina');
+            
 			speechSynthesis.speak(utterance);
         
 
