@@ -69,18 +69,20 @@
 
 		function myFunction() {
 			document.getElementById("demo").innerHTML = fname.value;
-			var text = "Bienvenido" + fname.value + "Has tomado una gran decision , en iniciar una relacion con tu cabello.";
+			
+
+
+			initialize();
+			animate();
+			
+			var text = "Bienvenido Has tomado una gran decision , en iniciar una relacion con tu cabello.";
             const utterance = new SpeechSynthesisUtterance(text);
 
             const voices = speechSynthesis.getVoices();
             utterance.voice = voices[0]; // Choose a specific voice
             utterance.lang = "es-ES";
 
-            speechSynthesis.speak(utterance);
-			initialize();
-			animate();
-			
-
+			speechSynthesis.speak(utterance);
         
 
             setTimeout(x.play(), 10000);
