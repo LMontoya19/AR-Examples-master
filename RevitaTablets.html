@@ -1,255 +1,223 @@
 <!DOCTYPE html>
-<html lang="es">
 <head>
-	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-	<title>Linea Estelar</title>
-
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-	<!-- include three.js library -->
-	<script src='js/three.js'></script>
-	<script src='js/OBJLoader.js'></script>
-	<script src='js/MTLLoader.js'></script>
-	<!-- include jsartookit -->
-	<script src="jsartoolkit5/artoolkit.min.js"></script>
-	<script src="jsartoolkit5/artoolkit.api.js"></script>
-	<!-- include threex.artoolkit -->
-	<script src="threex/threex-artoolkitsource.js"></script>
-	<script src="threex/threex-artoolkitcontext.js"></script>
-	<script src="threex/threex-arbasecontrols.js"></script>
-	<script src="threex/threex-armarkercontrols.js"></script>
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <title>Linea Estelar</title>
+    <!-- include three.js library -->
+    <script src='js/three.js'></script>
+    <script src='js/OBJLoader.js'></script>
+    <script src='js/MTLLoader.js'></script>
+    <!-- include jsartookit -->
+    <script src="jsartoolkit5/artoolkit.min.js"></script>
+    <script src="jsartoolkit5/artoolkit.api.js"></script>
+    <!-- include threex.artoolkit -->
+    <script src="threex/threex-artoolkitsource.js"></script>
+    <script src="threex/threex-artoolkitcontext.js"></script>
+    <script src="threex/threex-arbasecontrols.js"></script>
+    <script src="threex/threex-armarkercontrols.js"></script>
 </head>
 
-<body style='margin: 0px; overflow: hidden; font-family: Monospace;'>
+<body style='margin : 0px; overflow: hidden; font-family: Monospace;'>
 
-	<!--
-	  Example created by Lee Stemkoski: https://github.com/stemkoski
-	  Based on the AR.js library and examples created by Jerome Etienne: https://github.com/jeromeetienne/AR.js/
-	-->
+    <!--
+      Example created by Lee Stemkoski: https://github.com/stemkoski
+      Based on the AR.js library and examples created by Jerome Etienne: https://github.com/jeromeetienne/AR.js/
+    -->
 
-	<audio id="myAudio" preload="none">
-		<source src="audios/revita.ogg" type="audio/ogg">
-		<source src="audios/revita.mp3" type="audio/mpeg">
-		Your browser does not support the audio element.
-	</audio>
+    <audio id="myAudio" preload="auto">
+        <source src="audios/revita.ogg" type="audio/ogg">
+        <source src="audios/revita.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
 
-	<div style='position: fixed; top: 10px; width:100%; text-align: center; z-index: 1;'>
-		<button onclick="playAudio()">
-			REPRODUCIR
-		</button>
-	</div>
+    <div style='position: fixed; top: 10px; width:100%; text-align: center; z-index: 1;'>
+        <button onclick="playAudio()">
+            REPRODUCIR
+        </button>
+    </div>
+    <script>
 
-	<div id="demo" class="collapse in">
-		<div class="container">
-			<h2>Ingresa tu nombre</h2>
-			<input type="text" id="fname" name="fname"><br><br>
-			<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo" onclick="myFunction()">Ingresar</button>
+        var x = document.getElementById("myAudio");
 
-		</div>
-	</div>
-	<div id="demo2">
-	</div>
-	<script>
+        function playAudio() {
+            x.play();
+        }
+        var scene, camera, renderer, clock, deltaTime, totalTime;
 
-		var x = document.getElementById("myAudio");
-	
-		function playAudio() {
-			x.play();
-		}
-		var scene, camera, renderer, clock, deltaTime, totalTime;
+        var arToolkitSource, arToolkitContext;
 
-		var arToolkitSource, arToolkitContext;
+        var markerRoot1;
 
-		var markerRoot1;
+        var mesh1;
 
-		var mesh1;
+        initialize();
+        animate();
 
 
 
-		function myFunction() {
-		
-			var name = fname.value;
+        function initialize() {
+            var x = document.getElementById("myAudio");
+            x.play();
+            scene = new THREE.Scene();
+
+            let ambientLight = new THREE.AmbientLight(0xcccccc, 1.0);
+            scene.add(ambientLight);
+
+            camera = new THREE.Camera();
+            scene.add(camera);
+
+            renderer = new THREE.WebGLRenderer({
+                antialias: true,
+                alpha: true
+            });
+            renderer.setClearColor(new THREE.Color('lightgrey'), 0)
+            renderer.setSize(2048, 2048);
+            renderer.domElement.style.position = 'absolute'
+            renderer.domElement.style.top = '0px'
+            renderer.domElement.style.left = '0px'
+            document.body.appendChild(renderer.domElement);
+
+            clock = new THREE.Clock();
+            deltaTime = 0;
+            totalTime = 0;
+
+            ////////////////////////////////////////////////////////////
+            // setup arToolkitSource
+            ////////////////////////////////////////////////////////////
+
+            arToolkitSource = new THREEx.ArToolkitSource({
+                sourceType: 'webcam',
+            });
+
+            function onResize() {
+                arToolkitSource.onResize()
+                arToolkitSource.copySizeTo(renderer.domElement)
+                if (arToolkitContext.arController !== null) {
+                    arToolkitSource.copySizeTo(arToolkitContext.arController.canvas)
+                }
+            }
+
+            arToolkitSource.init(function onReady() {
+                onResize()
+            });
+
+            // handle resize event
+            window.addEventListener('resize', function () {
+                onResize()
+            });
+
+            ////////////////////////////////////////////////////////////
+            // setup arToolkitContext
+            ////////////////////////////////////////////////////////////
+
+            // create atToolkitContext
+            arToolkitContext = new THREEx.ArToolkitContext({
+                cameraParametersUrl: 'data/camera_para.dat',
+                detectionMode: 'mono'
+            });
+
+            // copy projection matrix to camera when initialization complete
+            arToolkitContext.init(function onCompleted() {
+                camera.projectionMatrix.copy(arToolkitContext.getProjectionMatrix());
+            });
+
+            ////////////////////////////////////////////////////////////
+            // setup markerRoots
+            ////////////////////////////////////////////////////////////
+
+            // build markerControls
+            markerRoot1 = new THREE.Group();
+            scene.add(markerRoot1);
+            let markerControls1 = new THREEx.ArMarkerControls(arToolkitContext, markerRoot1, {
+                type: 'pattern', patternUrl: "data/dslabs.patt",
+            })
+
+            let geometry1 = new THREE.PlaneBufferGeometry(1, 1, 4, 4);
+            let loader = new THREE.TextureLoader();
+            // let texture = loader.load( 'images/earth.jpg', render );
+            let material1 = new THREE.MeshBasicMaterial({ color: 0x0000ff, opacity: 1 });
+            mesh1 = new THREE.Mesh(geometry1, material1);
+            mesh1.rotation.x = -Math.PI / 2;
+            //markerRoot1.add(mesh1);
+
+            function onProgress(xhr) { console.log((xhr.loaded / xhr.total * 100) + '% loaded'); }
+            function onError(xhr) { console.log('An error happened'); }
 
 
-			initialize();
-			animate();
-			
-			var text = "Bienvenido"+ name+ "Has tomado una gran decision , en iniciar una relacion con tu cabello.";
-            const utterance = new SpeechSynthesisUtterance(text);
-
-            const voices = speechSynthesis.getVoices();
-            utterance.voice = voices.find((voice) => voice.lang === 'es-ES', 'Paulina');
-            utterance.lang = "es-ES";
-
-			speechSynthesis.speak(utterance);
-        
-
-            window.setTimeout(playAudio, 9000);
-		}
-		function initialize() {
-			var x = document.getElementById("myAudio");
-			scene = new THREE.Scene();
-
-			let ambientLight = new THREE.AmbientLight(0xcccccc, 1.0);
-			scene.add(ambientLight);
-
-			camera = new THREE.Camera();
-			scene.add(camera);
-
-			renderer = new THREE.WebGLRenderer({
-				antialias: true,
-				alpha: true
-			});
-			renderer.setClearColor(new THREE.Color('lightgrey'), 0)
-			renderer.setSize(2048, 2048);
-			renderer.domElement.style.position = 'absolute'
-			renderer.domElement.style.top = '0px'
-			renderer.domElement.style.left = '0px'
-			document.body.appendChild(renderer.domElement);
-
-			clock = new THREE.Clock();
-			deltaTime = 0;
-			totalTime = 0;
-
-			////////////////////////////////////////////////////////////
-			// setup arToolkitSource
-			////////////////////////////////////////////////////////////
-
-			arToolkitSource = new THREEx.ArToolkitSource({
-				sourceType: 'webcam',
-			});
-
-			function onResize() {
-				arToolkitSource.onResize()
-				arToolkitSource.copySizeTo(renderer.domElement)
-				if (arToolkitContext.arController !== null) {
-					arToolkitSource.copySizeTo(arToolkitContext.arController.canvas)
-				}
-			}
-
-			arToolkitSource.init(function onReady() {
-				onResize()
-			});
-
-			// handle resize event
-			window.addEventListener('resize', function () {
-				onResize()
-			});
-
-			////////////////////////////////////////////////////////////
-			// setup arToolkitContext
-			////////////////////////////////////////////////////////////
-
-			// create atToolkitContext
-			arToolkitContext = new THREEx.ArToolkitContext({
-				cameraParametersUrl: 'data/camera_para.dat',
-				detectionMode: 'mono'
-			});
-
-			// copy projection matrix to camera when initialization complete
-			arToolkitContext.init(function onCompleted() {
-				camera.projectionMatrix.copy(arToolkitContext.getProjectionMatrix());
-			});
-
-			////////////////////////////////////////////////////////////
-			// setup markerRoots
-			////////////////////////////////////////////////////////////
-
-			// build markerControls
-			markerRoot1 = new THREE.Group();
-			scene.add(markerRoot1);
-			let markerControls1 = new THREEx.ArMarkerControls(arToolkitContext, markerRoot1, {
-				type: 'pattern', patternUrl: "data/dslabs.patt",
-			})
-
-			let geometry1 = new THREE.PlaneBufferGeometry(1, 1, 4, 4);
-			let loader = new THREE.TextureLoader();
-			// let texture = loader.load( 'images/earth.jpg', render );
-			let material1 = new THREE.MeshBasicMaterial({ color: 0x0000ff, opacity: 1 });
-			mesh1 = new THREE.Mesh(geometry1, material1);
-			mesh1.rotation.x = -Math.PI / 2;
-			//markerRoot1.add(mesh1);
-
-			function onProgress(xhr) { console.log((xhr.loaded / xhr.total * 100) + '% loaded'); }
-			function onError(xhr) { console.log('An error happened'); }
+            new THREE.MTLLoader()
+                .setPath('models/')
+                .load('revitashampoo.mtl', function (materials) {
+                    materials.preload();
+                    new THREE.OBJLoader()
+                        .setMaterials(materials)
+                        .setPath('models/')
+                        .load('revitashampoo.obj', function (group) {
+                            mesh0 = group.children[0];
+                            mesh0.material.side = THREE.DoubleSide;
+                            mesh0.position.y = 2.0;
+                            mesh0.scale.set(1.5, 1.5, 1.5);
+                            markerRoot1.add(mesh0);
+                        }, onProgress, onError);
+                });
+            new THREE.MTLLoader()
+                .setPath('models/')
+                .load('revitatablets2.mtl', function (materials) {
+                    materials.preload();
+                    new THREE.OBJLoader()
+                        .setMaterials(materials)
+                        .setPath('models/')
+                        .load('revitatablets2.obj', function (group) {
+                            mesh2 = group.children[0];
+                            mesh2.material.side = THREE.DoubleSide;
+                            mesh2.position.y = 2.0;
+                            mesh2.position.x = 2.3;
+                            mesh2.scale.set(1.5, 1.5, 1.5);
+                            markerRoot1.add(mesh2);
+                        }, onProgress, onError);
+                });
+            new THREE.MTLLoader()
+                .setPath('models/')
+                .load('revitaconditioner.mtl', function (materials) {
+                    materials.preload();
+                    new THREE.OBJLoader()
+                        .setMaterials(materials)
+                        .setPath('models/')
+                        .load('revitaconditioner.obj', function (group) {
+                            mesh3 = group.children[0];
+                            mesh3.material.side = THREE.DoubleSide;
+                            mesh3.position.y = 2.0;
+                            mesh3.position.x = -1.6;
+                            mesh3.scale.set(1.5, 1.5, 1.5);
+                            markerRoot1.add(mesh3);
+                        }, onProgress, onError);
+                });
+        }
 
 
-			new THREE.MTLLoader()
-				.setPath('models/')
-				.load('revitashampoo.mtl', function (materials) {
-					materials.preload();
-					new THREE.OBJLoader()
-						.setMaterials(materials)
-						.setPath('models/')
-						.load('revitashampoo.obj', function (group) {
-							mesh0 = group.children[0];
-							mesh0.material.side = THREE.DoubleSide;
-							mesh0.position.y = 2.0;
-							mesh0.scale.set(1.5, 1.5, 1.5);
-							markerRoot1.add(mesh0);
-						}, onProgress, onError);
-				});
-			new THREE.MTLLoader()
-				.setPath('models/')
-				.load('revitatablets2.mtl', function (materials) {
-					materials.preload();
-					new THREE.OBJLoader()
-						.setMaterials(materials)
-						.setPath('models/')
-						.load('revitatablets2.obj', function (group) {
-							mesh2 = group.children[0];
-							mesh2.material.side = THREE.DoubleSide;
-							mesh2.position.y = 2.0;
-							mesh2.position.x = 2.3;
-							mesh2.scale.set(1.5, 1.5, 1.5);
-							markerRoot1.add(mesh2);
-						}, onProgress, onError);
-				});
-			new THREE.MTLLoader()
-				.setPath('models/')
-				.load('revitaconditioner.mtl', function (materials) {
-					materials.preload();
-					new THREE.OBJLoader()
-						.setMaterials(materials)
-						.setPath('models/')
-						.load('revitaconditioner.obj', function (group) {
-							mesh3 = group.children[0];
-							mesh3.material.side = THREE.DoubleSide;
-							mesh3.position.y = 2.0;
-							mesh3.position.x = -1.6;
-							mesh3.scale.set(1.5, 1.5, 1.5);
-							markerRoot1.add(mesh3);
-						}, onProgress, onError);
-				});
-		}
+        function update() {
+            // update artoolkit on every frame
+            let audio = document.getElementById('myAudio');
+
+            if (arToolkitSource.ready !== false)
+                arToolkitContext.update(arToolkitSource.domElement);
 
 
-		function update() {
-			// update artoolkit on every frame
-			let audio = document.getElementById('myAudio');
-
-			if (arToolkitSource.ready !== false)
-				arToolkitContext.update(arToolkitSource.domElement);
+        }
 
 
-		}
+        function render() {
+            renderer.render(scene, camera);
+        }
 
 
-		function render() {
-			renderer.render(scene, camera);
-		}
+        function animate() {
+            requestAnimationFrame(animate);
+            deltaTime = clock.getDelta();
+            totalTime += deltaTime;
+            update();
+            render();
+        }
 
-
-		function animate() {
-			requestAnimationFrame(animate);
-			deltaTime = clock.getDelta();
-			totalTime += deltaTime;
-			update();
-			render();
-		}
-
-	</script>
+    </script>
 
 </body>
 </html>
