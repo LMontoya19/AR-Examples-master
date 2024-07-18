@@ -34,11 +34,11 @@
 		Your browser does not support the audio element.
 	</audio>
 
-	<div style='position: fixed; top: 10px; width:100%; text-align: center; z-index: 1;'>
+	<!--<div style='position: fixed; top: 10px; width:100%; text-align: center; z-index: 1;'>
 		<button onclick="playAudio()">
 			REPRODUCIR
 		</button>
-	</div>
+	</div>-->
 
 	<div id="demo" class="collapse in">
 		<div class="container">
@@ -85,7 +85,7 @@
 			speechSynthesis.speak(utterance);
         
 
-            window.setTimeout(x.play(), 10000);
+            window.setTimeout(playAudio, 10000);
 		}
 		function initialize() {
 			var x = document.getElementById("myAudio");
