@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<html lang="es">
 <head>
 	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 	<title>Linea Estelar</title>
@@ -67,10 +68,18 @@
 
 
 		function myFunction() {
-            document.getElementById("demo").innerHTML = fname.value;
+			document.getElementById("demo").innerHTML = fname.value;
 			initialize();
 			animate();
-			x.play();
+			const utterance = new SpeechSynthesisUtterance("Bienvenido " + fname.value + " Has tomado una gran decision , en iniciar una relacion con tu cabello.");
+
+            const voices = speechSynthesis.getVoices();
+            utterance.voice = voices[0]; // Choose a specific voice
+			utterance.lang = "es-ES";
+
+            speechSynthesis.speak(utterance);
+
+            setTimeout(x.play(), 10000);
 		}
 		function initialize() {
 			var x = document.getElementById("myAudio");
